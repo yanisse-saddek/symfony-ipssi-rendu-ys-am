@@ -29,9 +29,6 @@ class Article
     #[ORM\Column]
     private ?bool $published = null;
 
-    #[ORM\Column]
-    private ?int $quantity = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -93,18 +90,6 @@ class Article
     public function setPublished(bool $published): self
     {
         $this->published = $published;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
 
         return $this;
     }
