@@ -49,6 +49,9 @@ class ProductRepository extends ServiceEntityRepository
             $qb->orderBy('p.createdAt', 'DESC');
         }
 
+        $qb->where('p.quantity > 0');
+        $qb->where('p.published = 1');
+
         return $qb->getQuery()->getResult();
     }
 //    /**

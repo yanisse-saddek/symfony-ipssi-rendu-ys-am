@@ -26,7 +26,7 @@ class ContentController extends AbstractController
         ]);
     }
 
-    #[Route('/products', name: 'app_products', methods: ['GET', 'POST'])]
+    #[Route('/products', name: 'app_product_index', methods: ['GET', 'POST'])]
     public function productPage(Request $request, ProductRepository $productRepository): Response
     {
         return $this->redirectToRoute('app_products_filter', [
@@ -53,9 +53,14 @@ class ContentController extends AbstractController
     }
 
 
-    #[Route('/product/{id}', name: 'app_product', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'app_product', methods: ['GET'])]
     public function showProduct(Product $product): Response
     {
+        // check if user have ROLE_USER
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('content/product/product.html.twig', [
             'product' => $product,
         ]);
