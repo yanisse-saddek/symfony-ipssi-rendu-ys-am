@@ -39,6 +39,18 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByOrder($filter)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if($filter == 'asc') {
+            $qb->orderBy('p.createdAt', 'ASC');
+        } else {
+            $qb->orderBy('p.createdAt', 'DESC');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

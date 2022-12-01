@@ -12,16 +12,14 @@ class ProductFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        //buildform selector
-
         $builder
             ->add('filter', ChoiceType::class, [
                 'label'=>'Filtrer par',
+                'mapped'=>false,
                 'choices'=>[
-                    'Plus récents'=>'time_asc',
-                    'Plus anciens'=>'time_desc',
-
-                ]
+                    'Plus récents'=>'asc',
+                    'Plus anciens'=>'desc',
+                ],
             ] )
         ;
     }
@@ -29,7 +27,6 @@ class ProductFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Product::class,
-        ]);
+         ]);
     }
 }

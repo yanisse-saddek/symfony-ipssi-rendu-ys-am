@@ -26,18 +26,32 @@ class ContentController extends AbstractController
         ]);
     }
 
-    #[Route('/products', name: 'app_products', methods: ['GET'])]
-    public function showProducts(Request $request, ProductRepository $productRepository): Response
+    #[Route('/products', name: 'app_products', methods: ['GET', 'POST'])]
+    public function productPage(Request $request, ProductRepository $productRepository): Response
+    {
+        return $this->redirectToRoute('app_products_filter', [
+            'filter' => 'asc',
+        ]);
+    }
+
+    #[Route('/products/{filter}', name: 'app_products_filter', methods: ['GET', 'POST'])]
+    public function showProducts(Request $request, $filter, ProductRepository $productRepository): Response
     {
         $form = $this->createForm(ProductFilterType::class);
         $form->handleRequest($request);
 
-// dd($form);
+        if($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->get('filter')->getData();
+            return $this->redirectToRoute('app_products_filter', ['filter'=>$filter]);
+        } 
+
+
         return $this->render('content/products.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $productRepository->findByOrder($filter),
             'form'=>$form->createView(),
         ]);
     }
+
 
     #[Route('/product/{id}', name: 'app_product', methods: ['GET'])]
     public function showProduct(Product $product): Response
