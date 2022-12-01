@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Product;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
@@ -19,7 +20,7 @@ class ContentController extends AbstractController
     {
         $latestArticles = $articleRepository->findLatestArticles(3);
 
-        return $this->render('article/index.html.twig', [
+        return $this->render('content/home.html.twig', [
             'articles' => $latestArticles,
         ]);
     }
@@ -27,9 +28,16 @@ class ContentController extends AbstractController
     #[Route('/products', name: 'app_products', methods: ['GET'])]
     public function showProducts(ProductRepository $productRepository): Response
     {
-        return $this->render('product/index.html.twig', [
+        return $this->render('content/products.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
     }
 
+    #[Route('/product/{id}', name: 'app_product', methods: ['GET'])]
+    public function showProduct(Product $product): Response
+    {
+        return $this->render('content/product/product.html.twig', [
+            'product' => $product,
+        ]);
+    }
 }

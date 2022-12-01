@@ -22,9 +22,9 @@ class Product
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $seller = null;
+    // #[ORM\ManyToOne(inversedBy: 'products')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?User $seller = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -83,17 +83,17 @@ class Product
         return $this;
     }
 
-    public function getSeller(): ?User
-    {
-        return $this->seller;
-    }
+    // public function getSeller(): ?User
+    // {
+    //     return $this->seller;
+    // }
 
-    public function setSeller(?User $seller): self
-    {
-        $this->seller = $seller;
+    // public function setSeller(?User $seller): self
+    // {
+    //     $this->seller = $seller;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {

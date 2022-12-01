@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+    <h1>Produits en vente</h1>
+    
+    <div class="d-flex justify-content-around">
+    {% for product in products %}
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src={{product.image}} alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{product.title}}</h5>
+            <p class="card-text">{{product.description}}</p>
+            <p class="card-text">Prix: {{product.price}} $</p>
+            <p class="card-text">Catégorie: {{product.category.name}}</p>
+            <p class="card-text">Marque: {{product.brand}}</p>
+            <a href="{{ path('app_product', {'id':product.id}) }}" class="btn btn-primary">Voir l'article</a>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+{% endblock %}
