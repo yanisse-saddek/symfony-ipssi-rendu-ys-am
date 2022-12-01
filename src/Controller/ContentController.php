@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Product;
 use App\Form\ArticleType;
+use App\Form\ProductFilterType;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +27,15 @@ class ContentController extends AbstractController
     }
 
     #[Route('/products', name: 'app_products', methods: ['GET'])]
-    public function showProducts(ProductRepository $productRepository): Response
+    public function showProducts(Request $request, ProductRepository $productRepository): Response
     {
+        $form = $this->createForm(ProductFilterType::class);
+        $form->handleRequest($request);
+
+// dd($form);
         return $this->render('content/products.html.twig', [
             'products' => $productRepository->findAll(),
+            'form'=>$form->createView(),
         ]);
     }
 

@@ -4,7 +4,13 @@
 
 {% block body %}
     <h1>Produits en vente</h1>
-    
+
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<button class="btn action_button">{{ button_label|default('Envoyer') }}</button>
+			{{ form_end(form) }}
+
+
     <div class="d-flex justify-content-around">
     {% for product in products %}
     <div class="card" style="width: 18rem;">

@@ -24,9 +24,14 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href=" {{ path('app_products') }} ">Produits </a>
-      <a class="nav-item nav-link" href="#">Features</a>
-      <a class="nav-item nav-link" href="#">Connexion</a>
-      <a class="nav-item nav-link disabled" href="{{ path('app_register') }}">Inscription</a>
+      {# <a class="nav-item nav-link" href="#">Features</a> #}
+      {% if app.user %}
+         <a class="nav-item nav-link text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+         {% else %}
+         <a class="nav-item nav-link" href="{{ path('app_login') }}">Connexion</a>
+         <a class="nav-item nav-link" href="{{ path('app_register') }}">Inscription</a>
+      {% endif %}
+      
     </div>
   </div>
 </nav>
