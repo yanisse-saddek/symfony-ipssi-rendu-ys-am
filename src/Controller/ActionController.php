@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTimeImmutable;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,5 +69,18 @@ class ActionController extends AbstractController
             'product' => $product,
             'form' => $form,
         ]);
+    }
+
+    #Change role to seller
+    #[Route('/switch-seller', name: 'app_seller', methods: ['GET', 'POST'])]
+    public function switchToSeller(Request $request, UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
+        $user->setRoles(['ROLE_SELLER']);
+        $userRepository->save($user, true);
+
+        return $this->redirectToRoute('app_profile', [
+            'id'=>$this->getUser()->getId()
+        ], Response::HTTP_SEE_OTHER);
     }
 }

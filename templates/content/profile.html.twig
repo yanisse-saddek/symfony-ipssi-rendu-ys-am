@@ -16,42 +16,48 @@
         </div>
 
         <div class="mt-5">
-            <h2>Mes produits</h2>
-                <ul class="list-group">
-            {% for product in products %}
-            <a href="{{path('app_product', {'id':product.id})}}" class="text-decoration-none">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <img height="150px" src={{product.image}} />
-                    <div>
-                        <span class="badge bg-primary rounded-pill-pill ">{{product.quantity}}</span>
-                        {% if product.published %}
-                            <span class="badge bg-success rounded-pill-pill ">En ligne</span>
-                        {% else %}
-                            <span class="badge bg-warning rounded-pill-pill ">Brouillon</span>        
-                        {% endif %}
-                        <h3>{{product.title}}</h3>
-                        <p>{{product.description}}</p>
+
+            {% if is_granted('ROLE_SELLER') == false %}
+                <h2>Cliquer ici pour devenir vendeur</h2>
+                <a href="{{ path('app_seller')}}" class="btn btn-primary" >Devenir vendeur</a>
+                @{% else %}
+                <h2>Mes produits</h2>
+                    <ul class="list-group">
+                {% for product in products %}
+                <a href="{{path('app_product', {'id':product.id})}}" class="text-decoration-none">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img height="150px" src={{product.image}} />
+                        <div>
+                            <span class="badge bg-primary rounded-pill-pill ">{{product.quantity}}</span>
+                            {% if product.published %}
+                                <span class="badge bg-success rounded-pill-pill ">En ligne</span>
+                            {% else %}
+                                <span class="badge bg-warning rounded-pill-pill ">Brouillon</span>        
+                            {% endif %}
+                            <h3>{{product.title}}</h3>
+                            <p>{{product.description}}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex align-items-center">    
-                <form method="post" action="{{path('app_product_edit', {'id':product.id})}}">
-                    <button type="submit" class="btn btn-primary">Editer</button>
-                </form>
+                    <div class="d-flex align-items-center">    
+                    <form method="post" action="{{path('app_product_edit', {'id':product.id})}}">
+                        <button type="submit" class="btn btn-primary">Editer</button>
+                    </form>
 
-                    <form method="post" action="{{path('app_product_delete', {'id':product.id})}}" onsubmit="return confirm('Confirmer la suppression de {{product.title}}?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </form>
+                        <form method="post" action="{{path('app_product_delete', {'id':product.id})}}" onsubmit="return confirm('Confirmer la suppression de {{product.title}}?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
 
+                    </div>
+                    </li>         
+                </a>       
+                {% endfor %}     
+                </ul>
+                <div class="d-flex justify-content-center mt-3">
+                    <a class="btn btn-success" href="{{ path('app_product_new') }}">Ajouter un produit</a>
                 </div>
-                </li>         
-            </a>       
-            {% endfor %}
-            </ul>
-            <div class="d-flex justify-content-center mt-3">
-                <a class="btn btn-success" href="{{ path('app_product_new') }}">Ajouter un produit</a>
-            </div>
+            {% endif %}
         </div>
     </div>
 </div>

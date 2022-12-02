@@ -36,6 +36,8 @@ security:
         - { path: ^/product/, roles: [ROLE_SELLER, ROLE_ADMIN ] }
         - { path: ^/category/, roles: ROLE_ADMIN }
         - { path: ^/article/, roles: ROLE_ADMIN }
+        - { path: ^/action/switch-seller, roles: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/action/, roles: [ROLE_ADMIN, ROLE_SELLER] }
 
 when@test:
     security:
