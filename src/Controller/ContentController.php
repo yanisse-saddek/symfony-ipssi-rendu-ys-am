@@ -6,9 +6,13 @@ use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Product;
 use App\Form\ArticleType;
+use App\Entity\CartProduct;
+use App\Form\BuyProductType;
 use App\Form\ProductFilterType;
+use App\Repository\CartRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
+use App\Repository\CartProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,16 +58,33 @@ class ContentController extends AbstractController
     }
 
 
-    #[Route('/show/{id}', name: 'app_product', methods: ['GET'])]
-    public function showProduct(Product $product): Response
+    #[Route('/show/{id}', name: 'app_product', methods: ['GET', 'POST'])]
+    public function showProduct(Request $request, Product $product, CartRepository $cartRepository, CartProductRepository $cartProductRepository): Response
     {
         // check if user have ROLE_USER
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_login');
         }
+        // create form
+
+        $form = $this->createForm(BuyProductType::class);        
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $quantity = $form->get('quantity')->getData();
+            $cartProduct = new CartProduct();
+            $cartProduct->setCartProduct($product);
+            $cartProduct->setProductQuantity($quantity);
+            $cartProduct->setCart($cartRepository->findCartByUser($this->getUser()->getId()));
+
+            $cartProductRepository->save($cartProduct, true);
+                        
+            return $this->redirectToRoute('app_product', ['id'=>$product->getId(), 'quantity'=>$quantity]);
+        }
 
         return $this->render('content/product/product.html.twig', [
             'product' => $product,
+            'form' => $form->createView(),
         ]);
     }
     

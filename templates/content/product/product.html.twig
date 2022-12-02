@@ -34,7 +34,12 @@
         </tbody>
 
     </table>
-        Ajouter 1 article au panier
+        {# <a href="{{ path('app_product_buy', {'id': product.id}) }}" class="btn btn-primary">Acheter</a> #}
+        // create form
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Commenter</button>
+        {{ form_end(form) }}    
     <div>
             
     </div>

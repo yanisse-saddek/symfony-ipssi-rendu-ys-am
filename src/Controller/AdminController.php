@@ -74,7 +74,7 @@ class AdminController extends AbstractController
 
 
 
-
+    // Users
     #[Route('/user', name: 'app_admin_user', methods: ['GET'])]
     public function userPage(UserRepository $userRepository): Response
     {
