@@ -11,25 +11,44 @@
             <p>Nom Prénom: {{user.name}} {{user.firstname}}</p>
             <p>Adresse email: {{user.email}}</p>
             <p>Date d'inscription: {{user.createdAt|date('Y-m-d H:i:s')}}</p>
-            <p>Inscrit sur le site en tant que: {{user.roles|first}}
+            <p>Inscrit sur le site en tant que: {{user.roles|first}}</p>
+            <a href="{{ path('app_home')}}" class="btn btn-primary" >Editer mon mot de passe</a>
         </div>
 
         <div class="mt-5">
             <h2>Mes produits</h2>
                 <ul class="list-group">
             {% for product in products %}
+            <a href="{{path('app_product', {'id':product.id})}}" class="text-decoration-none">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <img height="150px" src={{product.image}}/>
+                    <img height="150px" src={{product.image}} />
                     <div>
+                        <span class="badge bg-primary rounded-pill-pill ">{{product.quantity}}</span>
+                        {% if product.published %}
+                            <span class="badge bg-success rounded-pill-pill ">En ligne</span>
+                        {% else %}
+                            <span class="badge bg-warning rounded-pill-pill ">Brouillon</span>        
+                        {% endif %}
                         <h3>{{product.title}}</h3>
                         <p>{{product.description}}</p>
                     </div>
                 </div>
-                <span class="badge badge-primary badge-pill text-black">{{product.quantity}}</span>
-                </li>                
+                <div class="d-flex align-items-center">    
+                    <a href="app_home"><span class="badge bg-primary rounded-pill-pill ">Editer</span></a>
+                    <form method="post" action="{{path('app_product_delete', {'id':product.id})}}" onsubmit="return confirm('Confirmer la suppression de {{product.title}}?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+
+                </div>
+                </li>         
+            </a>       
             {% endfor %}
             </ul>
+            <div class="d-flex justify-content-center mt-3">
+                <a class="btn btn-primary" href="{{ path('app_product_new') }}">Ajouter un produit</a>
+            </div>
         </div>
     </div>
 </div>

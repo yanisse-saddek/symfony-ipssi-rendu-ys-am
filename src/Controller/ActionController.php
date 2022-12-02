@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/action')]
 class ActionController extends AbstractController
 {   
+    #Products
     #[Route('/product/new', name: 'app_product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProductRepository $productRepository): Response
     {
@@ -36,5 +37,17 @@ class ActionController extends AbstractController
             'product' => $product,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/product/{id}', name: 'app_product_delete', methods: ['GET', 'POST'])]
+    public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+            $productRepository->remove($product, true);
+        }
+
+        return $this->redirectToRoute('app_profile', [
+            'id'=>$this->getUser()->getId()
+        ], Response::HTTP_SEE_OTHER);
     }
 }
