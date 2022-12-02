@@ -31,6 +31,11 @@
          <a class="nav-item nav-link" href="{{ path('app_login') }}">Connexion</a>
          <a class="nav-item nav-link" href="{{ path('app_register') }}">Inscription</a>
       {% endif %}
+
+      {% if is_granted('ROLE_ADMIN') %}
+      <a class="nav-item nav-link" href="{{ path('app_admin_index') }}">Admin</a>
+      {% endif %}  
+
     </div>
   </div>
 </nav>
