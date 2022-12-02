@@ -54,6 +54,18 @@ class ProductRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getQuantityByCategory($category)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->select('count(p.id)');
+        $qb->where('p.category = :category');
+        $qb->andWhere('p.published = 1');
+        $qb->setParameter('category', $category);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

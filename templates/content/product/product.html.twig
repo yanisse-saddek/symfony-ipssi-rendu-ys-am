@@ -3,7 +3,10 @@
 {% block title %}Product{% endblock %}
 
 {% block body %}
+<div class="container">
+    <a href="{{ path('app_product_index') }}" class="btn btn-primary">Retour a la liste des articles</a>
 <div class="container d-flex justify-content-center align-items-center flex-column">
+
     <img height="300px" width="300px" src="{{product.image}}" alt="product image">
     <h1>{{product.title}}</h1>
     <table class="table">
@@ -24,16 +27,19 @@
                 <th>Produit mis a jour le</th>
                 <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
+            <tr>
+                <th>Mise en vente par </th>
+                <td>{{ product.seller.name}} {{product.seller.firstname}}</td>
+            </tr>
         </tbody>
+
     </table>
+        Ajouter 1 article au panier
     <div>
             
     </div>
     </div>
-
-    <a href="{{ path('app_product_index') }}">back to list</a>
-
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+    </div>
 
     {{ include('product/_delete_form.html.twig') }}
 {% endblock %}
