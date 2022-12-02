@@ -24,9 +24,15 @@ class CartController extends AbstractController
         $qt = [];
         
         for($i=0; $i<count($cartProducts); $i++){
-            array_push($products, $cartProducts[$i]->getCartProduct());
-            array_push($qt, $cartProducts[$i]->getProductQuantity());
+            if(in_array($cartProducts[$i]->getCartProduct(), $products)){
+                $index = array_search($cartProducts[$i]->getCartProduct(), $products);
+                $qt[$index] += $cartProducts[$i]->getProductQuantity();
+            } else {
+                array_push($products, $cartProducts[$i]->getCartProduct());
+                array_push($qt, $cartProducts[$i]->getProductQuantity());
+            }            
         }
+        
         $data  = [
             'products' => $products,
             'qt' => $qt,

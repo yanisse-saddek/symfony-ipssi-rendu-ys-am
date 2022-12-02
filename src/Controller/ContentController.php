@@ -61,11 +61,9 @@ class ContentController extends AbstractController
     #[Route('/show/{id}', name: 'app_product', methods: ['GET', 'POST'])]
     public function showProduct(Request $request, Product $product, CartRepository $cartRepository, CartProductRepository $cartProductRepository): Response
     {
-        // check if user have ROLE_USER
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_login');
         }
-        // create form
 
         $form = $this->createForm(BuyProductType::class);        
         $form->handleRequest($request);
