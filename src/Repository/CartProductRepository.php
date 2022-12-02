@@ -39,6 +39,26 @@ class CartProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findProductsByCart(int $cartId): array
+    {
+        return $this->createQueryBuilder('cp')
+            ->andWhere('cp.cart = :cartId')
+            ->setParameter('cartId', $cartId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function removeAllIncludingCart(int $cart){
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->delete();
+        $qb->where('p.cart = :cart');
+        $qb->setParameter('cart', $cart);
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return CartProduct[] Returns an array of CartProduct objects
 //     */

@@ -5,8 +5,10 @@ namespace App\Controller;
 use DateTimeImmutable;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\CartRepository;
 use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
+use App\Repository\CartProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -82,5 +84,21 @@ class ActionController extends AbstractController
         return $this->redirectToRoute('app_profile', [
             'id'=>$this->getUser()->getId()
         ], Response::HTTP_SEE_OTHER);
+    }
+
+    # Validation of the cart
+    #[Route('/cart/validate', name: 'app_cart_validate', methods: ['GET', 'POST'])]
+    public function validateCart(Request $request, CartRepository $cartRepository, CartProductRepository $cartProductRepository, ProductRepository $productRepository): Response
+    {
+        $cart = $cartRepository->findCartByUser($this->getUser()->getId());
+        $products = $cartProductRepository->findProductsByCart($cart->getId());
+
+        foreach($products as $product){
+            $newQuantity = $product->getCartProduct()->getQuantity() - $product->getProductQuantity();
+            $productRepository->updateQuantity($product->getCartProduct()->getId(), $newQuantity);
+        }
+        $cartProductRepository->removeAllIncludingCart($cart->getId(), true);
+
+        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 }

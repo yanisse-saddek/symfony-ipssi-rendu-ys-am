@@ -65,6 +65,20 @@ class ProductRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function updateQuantity($product, $quantity)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->update();
+        $qb->set('p.quantity', ':quantity');
+        $qb->setParameter('quantity', $quantity);
+        $qb->where('p.id = :id');
+        $qb->setParameter('id', "$product");
+        
+        return $qb->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */
