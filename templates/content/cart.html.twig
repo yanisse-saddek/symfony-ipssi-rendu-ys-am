@@ -17,23 +17,18 @@
                             <span class="badge bg-primary rounded-pill-pill ">{{data.qt[loop.index -1]}}</span>
                             <h3>{{product.title}}</h3>
                             <p>{{product.description}}</p>
-                            <p>{{product.brand}}</p>
+                            <p>Marque: {{product.brand}}</p>
+                            <p>Vendeur: {{product.seller.firstname}} {{product.seller.name}}</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">    
-                    {# <form method="post" action="{{path('app_product_edit', {'id':product.id})}}">
-                        <button type="submit" class="btn btn-primary">Editer</button>
-                    </form>
-
-                        <form method="post" action="{{path('app_product_delete', {'id':product.id})}}" onsubmit="return confirm('Confirmer la suppression de {{product.title}}?');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
-                    </form> #}
-
                     </div>
                     </li>         
                 </a>       
     {% endfor %}
 </ul>
+<div class="d-flex justify-content-end mt-5">
+        <button class="btn btn-success">Valider mon achat</button>
+</div>
 </div>
 {% endblock %}

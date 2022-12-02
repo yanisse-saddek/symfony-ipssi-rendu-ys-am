@@ -3,6 +3,7 @@
 {% block title %}Produits{% endblock %}
 
 {% block body %}
+<div class="container">
     <h1>Produits en vente</h1>
 
 			{{ form_start(form) }}
@@ -11,7 +12,7 @@
 			{{ form_end(form) }}
 
 
-    <div class="d-flex justify-content-around">
+    <div class="d-flex justify-content-around flex-wrap">
     {% for product in products %}
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src={{product.image}} alt="Card image cap">
@@ -26,4 +27,5 @@
     </div>
     {% endfor %}
     </div>
+</div>
 {% endblock %}
