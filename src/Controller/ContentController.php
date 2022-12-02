@@ -68,12 +68,14 @@ class ContentController extends AbstractController
     }
     
     #[Route('/profile/{id}', name:'app_profile')]
-    public function showProfile(User $user){
+    public function showProfile(User $user, ProductRepository $productRepository){
         if($user->getId() !== $this->getUser()->getId()){
             return $this->redirectToRoute('app_home');
         }
+
         return $this->render('content/profile.html.twig', [
             'user' => $user,
+            'products'=>$productRepository->getProductByUser($this->getUser())
         ]);
     }   
 
