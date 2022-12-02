@@ -1,7 +1,10 @@
 <?php
 namespace App\Controller;
 
+use DateTimeImmutable;
+use App\Entity\Article;
 use App\Entity\Category;
+use App\Form\ArticleType;
 use App\Form\CategoryType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
@@ -28,6 +31,8 @@ class AdminController extends AbstractController
         ]);
     }
 
+
+    #Articles 
     #[Route('/articles', name: 'app_admin_article', methods: ['GET'])]
     public function articlePage(ArticleRepository $articleRepository): Response
     {
@@ -36,6 +41,30 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/article/new', name: 'app_article_new', methods: ['GET', 'POST'])]
+    public function createNewArticle(Request $request, ArticleRepository $articleRepository): Response
+    {
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $article->setCreatedAt(new DateTimeImmutable('now'));
+            $article->setUpdatedAt(new DateTimeImmutable('now'));
+            $article->setPublished(true);
+            $articleRepository->save($article, true);
+
+            return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/article/new.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+
+    #Products
     #[Route('/products', name: 'app_admin_product', methods: ['GET'])]
     public function productPage(ProductRepository $productRepository): Response
     {

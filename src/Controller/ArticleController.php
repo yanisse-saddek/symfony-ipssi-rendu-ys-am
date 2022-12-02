@@ -15,27 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ArticleController extends AbstractController
 {
 
-    #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ArticleRepository $articleRepository): Response
-    {
-        $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $article->setCreatedAt(new DateTimeImmutable('now'));
-            $article->setUpdatedAt(new DateTimeImmutable('now'));
-            $articleRepository->save($article, true);
-
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('article/new.html.twig', [
-            'article' => $article,
-            'form' => $form,
-        ]);
-    }
 
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
@@ -54,7 +33,7 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $articleRepository->save($article, true);
 
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/edit.html.twig', [
@@ -70,6 +49,6 @@ class ArticleController extends AbstractController
             $articleRepository->remove($article, true);
         }
 
-        return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
     }
 }

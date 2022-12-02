@@ -106,4 +106,33 @@ class ContentController extends AbstractController
         ]);
     }   
 
+
+    #Cart
+    #[Route('/cart', name: 'app_cart_index', methods: ['GET'])]
+    public function showUserCart(CartRepository $cartRepository, CartProductRepository $cartProduct): Response
+    {
+        $cartId =  $cartRepository->findCartByUser($this->getUser()->getId());
+        $cartProducts = $cartProduct->findBy(['cart'=>$cartId]);
+        $products = [];
+        $qt = [];
+        
+        for($i=0; $i<count($cartProducts); $i++){
+            if(in_array($cartProducts[$i]->getCartProduct(), $products)){
+                $index = array_search($cartProducts[$i]->getCartProduct(), $products);
+                $qt[$index] += $cartProducts[$i]->getProductQuantity();
+            } else {
+                array_push($products, $cartProducts[$i]->getCartProduct());
+                array_push($qt, $cartProducts[$i]->getProductQuantity());
+            }            
+        }
+        
+        $data  = [
+            'products' => $products,
+            'qt' => $qt,
+        ];
+
+        return $this->render('content/cart.html.twig', [
+            'data' => $data,
+        ]);
+    }
 }

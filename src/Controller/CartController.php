@@ -15,33 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/cart')]
 class CartController extends AbstractController
 {
-    #[Route('/', name: 'app_cart_index', methods: ['GET'])]
-    public function index(CartRepository $cartRepository, CartProductRepository $cartProduct): Response
-    {
-        $cartId =  $cartRepository->findCartByUser($this->getUser()->getId());
-        $cartProducts = $cartProduct->findBy(['cart'=>$cartId]);
-        $products = [];
-        $qt = [];
-        
-        for($i=0; $i<count($cartProducts); $i++){
-            if(in_array($cartProducts[$i]->getCartProduct(), $products)){
-                $index = array_search($cartProducts[$i]->getCartProduct(), $products);
-                $qt[$index] += $cartProducts[$i]->getProductQuantity();
-            } else {
-                array_push($products, $cartProducts[$i]->getCartProduct());
-                array_push($qt, $cartProducts[$i]->getProductQuantity());
-            }            
-        }
-        
-        $data  = [
-            'products' => $products,
-            'qt' => $qt,
-        ];
-
-        return $this->render('content/cart.html.twig', [
-            'data' => $data,
-        ]);
-    }
 
     #[Route('/new', name: 'app_cart_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CartRepository $cartRepository): Response

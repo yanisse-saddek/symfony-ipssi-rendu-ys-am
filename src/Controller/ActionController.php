@@ -21,6 +21,9 @@ class ActionController extends AbstractController
     #[Route('/product/new', name: 'app_product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProductRepository $productRepository): Response
     {
+        if(!is_granted('ROLE_SELLER')) {
+            return $this->redirectToRoute('app_home');
+        }
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -44,6 +47,10 @@ class ActionController extends AbstractController
     #[Route('/product/{id}', name: 'app_product_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
+        if($product->getSeller() !== $this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $productRepository->remove($product, true);
         }
