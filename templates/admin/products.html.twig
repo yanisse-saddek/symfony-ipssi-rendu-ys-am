@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+    <h1>Liste des prduits</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                {# <th>Vendeur</th> #}
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                {# <td>{{ product.id }}</td> #}
+                <td>{{ product.title }}</td>
+                {# <td>{{ product. }}</td> #}
+                <td>
+                    <a>Supprimer</a>
+                    {# <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a> #}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

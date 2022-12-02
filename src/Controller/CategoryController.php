@@ -14,25 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
 
-    #[Route('/new', name: 'app_category_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CategoryRepository $categoryRepository): Response
-    {
-        $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categoryRepository->save($category, true);
-
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('category/new.html.twig', [
-            'category' => $category,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
@@ -50,7 +31,7 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $categoryRepository->save($category, true);
 
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_category', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('category/edit.html.twig', [
@@ -66,6 +47,6 @@ class CategoryController extends AbstractController
             $categoryRepository->remove($category, true);
         }
 
-        return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_category', [], Response::HTTP_SEE_OTHER);
     }
 }

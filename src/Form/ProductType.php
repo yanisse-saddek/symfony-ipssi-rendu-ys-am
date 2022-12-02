@@ -22,6 +22,13 @@ class ProductType extends AbstractType
             ])
             ->add('image')
             ->add('brand')
+            ->add('quantity', null, [
+                'attr' => [
+                    'min' => 1,
+                    'max' => 999999,
+                    'step' => 1,
+                ],
+            ])
         ;
     }
 
