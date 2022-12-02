@@ -65,7 +65,15 @@ class ContentController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $form = $this->createForm(BuyProductType::class);        
+        $form = $this->createForm(BuyProductType::class, null, [
+            'choices' =>
+                array_combine(
+                    range(1, $product->getQuantity()),
+                    range(1, $product->getQuantity())
+                ),
+        ]);
+
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
