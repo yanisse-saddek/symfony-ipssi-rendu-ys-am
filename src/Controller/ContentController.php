@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Product;
 use App\Form\ArticleType;
@@ -65,4 +66,15 @@ class ContentController extends AbstractController
             'product' => $product,
         ]);
     }
+    
+    #[Route('/profile/{id}', name:'app_profile')]
+    public function showProfile(User $user){
+        if($user->getId() !== $this->getUser()->getId()){
+            return $this->redirectToRoute('app_home');
+        }
+        return $this->render('content/profile.html.twig', [
+            'user' => $user,
+        ]);
+    }   
+
 }

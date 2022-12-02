@@ -46,7 +46,7 @@ class AdminController extends AbstractController
 
     // Categories
     #[Route('/category', name: 'app_admin_category', methods: ['GET'])]
-    public function categoryPage(CategoryRepository $categoryRepository): Response
+    public function categoryPage(CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         return $this->render('admin/category.html.twig', [
             'categories' => $categoryRepository->findAll(),
