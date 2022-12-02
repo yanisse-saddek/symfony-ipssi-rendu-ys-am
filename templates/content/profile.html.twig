@@ -35,7 +35,10 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center">    
-                    <a href="app_home"><span class="badge bg-primary rounded-pill-pill ">Editer</span></a>
+                <form method="post" action="{{path('app_product_edit', {'id':product.id})}}">
+                    <button type="submit" class="btn btn-primary">Editer</button>
+                </form>
+
                     <form method="post" action="{{path('app_product_delete', {'id':product.id})}}" onsubmit="return confirm('Confirmer la suppression de {{product.title}}?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
                     <button type="submit" class="btn btn-danger">Supprimer</button>
@@ -47,7 +50,7 @@
             {% endfor %}
             </ul>
             <div class="d-flex justify-content-center mt-3">
-                <a class="btn btn-primary" href="{{ path('app_product_new') }}">Ajouter un produit</a>
+                <a class="btn btn-success" href="{{ path('app_product_new') }}">Ajouter un produit</a>
             </div>
         </div>
     </div>

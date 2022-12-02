@@ -32,8 +32,7 @@ class ActionController extends AbstractController
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('product/new.html.twig', [
+        return $this->renderForm('content/product/new.html.twig', [
             'product' => $product,
             'form' => $form,
         ]);
@@ -49,5 +48,25 @@ class ActionController extends AbstractController
         return $this->redirectToRoute('app_profile', [
             'id'=>$this->getUser()->getId()
         ], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/product/edit/{id}', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    {
+        if($product->getSeller() !== $this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $productRepository->save($product, true);
+
+            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('content/product/edit.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
     }
 }
