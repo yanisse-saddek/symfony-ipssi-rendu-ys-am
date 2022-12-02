@@ -24,6 +24,31 @@ class AdminController extends AbstractController
             'products' => $productRepository->findAll(),
         ]);
     }
+
+    #[Route('/articles', name: 'app_article_index', methods: ['GET'])]
+    public function articlePage(ArticleRepository $articleRepository): Response
+    {
+        return $this->render('admin/articles.html.twig', [
+            'articles' => $articleRepository->findAll(),
+        ]);
+    }
+
+    // Categories
+    #[Route('/category', name: 'app_category_index', methods: ['GET'])]
+    public function categoryPage(CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('admin/category.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/user', name: 'app_user_index', methods: ['GET'])]
+    public function userPage(UserRepository $userRepository): Response
+    {
+        return $this->render('admin/user.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
 }
 
 

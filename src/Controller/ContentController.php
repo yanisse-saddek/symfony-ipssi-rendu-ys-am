@@ -60,7 +60,7 @@ class ContentController extends AbstractController
         if (!$this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_login');
         }
-        
+
         return $this->render('content/product/product.html.twig', [
             'product' => $product,
         ]);

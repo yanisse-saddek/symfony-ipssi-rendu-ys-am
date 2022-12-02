@@ -16,30 +16,13 @@
         {% endblock %}
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{{ path('app_home') }}">Accueil</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" href=" {{ path('app_product_index', {'order':'asc'}) }} ">Produits </a>
-      {% if app.user %}
 
-         <a class="nav-item nav-link text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
-         {% else %}
-         <a class="nav-item nav-link" href="{{ path('app_login') }}">Connexion</a>
-         <a class="nav-item nav-link" href="{{ path('app_register') }}">Inscription</a>
-      {% endif %}
-
-      {% if is_granted('ROLE_ADMIN') %}
-      <a class="nav-item nav-link" href="{{ path('app_admin_index') }}">Admin</a>
+        {% if is_granted('ROLE_ADMIN') %}
+          {% include "navbar-admin.html.twig" %}
+      {% else %}
+        {% include "navbar.html.twig" %}
       {% endif %}  
-
-    </div>
-  </div>
-</nav>
-  {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
       <div class="alert alert-success" role="alert">
          Vous êtes connecté en tant qu'administrateur
       </div>
@@ -52,6 +35,7 @@
           Vous êtes connecté en tant qu'utilisateur
       </div>
   {% endif %}
+
 
         {% block body %}{% endblock %}
     </body>
