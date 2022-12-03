@@ -15,7 +15,6 @@
                 <th>Créer le</th>
                 <th>Mis à jour le</th>
                 <th>Status</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +28,6 @@
                 <td>{{ product.published ? 
                         '<span class="badge bg-success rounded-pill-pill">Publié</span>' : 
                         '<span class="badge bg-warning rounded-pill-pill">Brouillon</span>' }}</td>
-                <td>
-                    <a href="{{ path('app_article_show', {'id': product.id}) }}">Voir</a>
-                    <a href="{{ path('app_article_edit', {'id': product.id}) }}">Modifier</a>
-                </td>
             </tr>
         {% else %}
             <tr>

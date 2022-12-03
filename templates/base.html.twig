@@ -19,21 +19,22 @@
 
         {% if is_granted('ROLE_ADMIN') %}
           {% include "navbar-admin.html.twig" %}
-      {% else %}
+        {% endif %}  
+        
         {% include "navbar.html.twig" %}
-      {% endif %}  
+
         {% if is_granted('ROLE_ADMIN') %}
-      <div class="alert alert-success" role="alert">
-         Vous êtes connecté en tant qu'administrateur
-      </div>
+            <div class="alert alert-success" role="alert">
+                Vous êtes connecté en tant qu'administrateur
+            </div>
       {% elseif is_granted('ROLE_SELLER') %}
-      <div class="alert alert-success" role="alert">
-          Vous êtes connecté en tant que vendeur
-      </div>
+        <div class="alert alert-success" role="alert">
+            Vous êtes connecté en tant que vendeur
+        </div>
     {% elseif is_granted('ROLE_USER') %}
-      <div class="alert alert-success" role="alert">
-          Vous êtes connecté en tant qu'utilisateur
-      </div>
+        <div class="alert alert-success" role="alert">
+            Vous êtes connecté en tant qu'utilisateur
+        </div>
   {% endif %}
 
         

@@ -6,6 +6,11 @@
 <div class="container">
     <h1>Liste des utilisateurs</h1>
 
+    {{ form_start(form) }}
+    <p>Filtrer par: </p>
+    {{ form_widget(form.status) }}
+        <button class="btn btn-primary" type="submit">Rechercher</button>
+    {{ form_widget(form) }}
     <table class="table">
         <thead>
             <tr>

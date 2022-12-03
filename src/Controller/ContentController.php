@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Cart;
 use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Product;
@@ -9,6 +10,7 @@ use App\Form\ArticleType;
 use App\Entity\CartProduct;
 use App\Form\BuyProductType;
 use App\Form\ProductFilterType;
+use Doctrine\ORM\EntityManager;
 use App\Repository\CartRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
@@ -35,7 +37,7 @@ class ContentController extends AbstractController
     public function productPage(Request $request, ProductRepository $productRepository): Response
     {
         return $this->redirectToRoute('app_products_filter', [
-            'filter' => 'asc',
+            'filter' => 'desc',
         ]);
     }
 
@@ -77,6 +79,14 @@ class ContentController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $cartId =  $cartRepository->findCartByUser($this->getUser()->getId());
+            if(!$cartId) {
+                $cart = new Cart();
+                $cart->setUser($this->getUser());            
+
+                $cartRepository->save($cart, true);
+            }
+
             $quantity = $form->get('quantity')->getData();
             $cartProduct = new CartProduct();
             $cartProduct->setCartProduct($product);

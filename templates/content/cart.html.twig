@@ -7,6 +7,8 @@
     <h1>Mon panier</h1>
 
 <ul class="list-group">
+    {% if data.products %}
+    
     {% for product in data.products %}
 
                     <a href="{{path('app_product', {'id':product.id})}}" class="text-decoration-none">
@@ -25,13 +27,14 @@
                     </div>
                     </li>         
                 </a>       
-    {% endfor %}
-</ul>
-<div class="d-flex justify-content-end mt-5">
-    // create html post form action 
-
+    {% endfor %} 
+<div class="d-flex justify-content-end mt-5">   
     <form action="{{path('app_cart_validate')}}" method="post">
         <button type="submit" class="btn btn-success">Valider mon panier</button>
 </div>
+    {% else %}
+        <p>Votre panier est vide!</p>
+    {% endif %}
+</ul>
 </div>
 {% endblock %}

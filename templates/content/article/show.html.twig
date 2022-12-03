@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+<div class="container">
+    <a href="{{ path('app_product_index') }}" class="btn btn-primary">Retour a la liste des articles</a>
+<div class="container">
+    <h1 class="mt-5">Article</h1>
+        <div class="card border-primary mb-3 mt-2">
+            <div class="card-header">{{ article.title }}</div>
+            <div class="card-body text-success">
+            <p class="card-text">{{ article.content }}</p>
+  </div>
+</div>
+    </div>
+{% endblock %}

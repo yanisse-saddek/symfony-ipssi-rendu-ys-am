@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Category;
 use App\Form\ArticleType;
 use App\Form\CategoryType;
+use App\Form\UserFilterType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
@@ -135,7 +136,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_category', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('category/new.html.twig', [
+        return $this->renderForm('/admin/category/new.html.twig', [
             'category' => $category,
             'form' => $form,
         ]);
@@ -171,11 +172,20 @@ class AdminController extends AbstractController
 
 
     // Users
-    #[Route('/user', name: 'app_admin_user', methods: ['GET'])]
-    public function userPage(UserRepository $userRepository): Response
-    {
+    #[Route('/user', name: 'app_admin_user', methods: ['GET', 'POST'])]
+    public function userPage(Request $request, UserRepository $userRepository): Response
+    { 
+        $form = $this->createForm(UserFilterType::class);
+        $form->handleRequest($request);
+        $users = $userRepository->findAll();
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $users = $userRepository->findUserByRole($form->get('status')->getData());
+        }
+        
         return $this->render('admin/user.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
+            'form' => $form->createView(),
         ]);
     }
 }
