@@ -6,6 +6,10 @@
 <div class="container">
     <h1>Liste des catégories</h1>
 
+    {{ form_start(form) }}
+    {{ form_widget(form.sort) }}
+        <button class="btn btn-primary">Filtrer</button>
+    {{ form_widget(form) }}
     <table class="table">
         <thead>
             <tr>

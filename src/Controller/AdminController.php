@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Form\SortType;
 use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Category;
@@ -34,11 +35,23 @@ class AdminController extends AbstractController
 
 
     #Articles 
-    #[Route('/articles', name: 'app_admin_article', methods: ['GET'])]
-    public function articlePage(ArticleRepository $articleRepository): Response
+    #[Route('/articles', name: 'app_admin_article', methods: ['GET', 'POST'])]
+    public function articlePage(Request $request, ArticleRepository $articleRepository): Response
     {
+        // create form sorttype
+        $form = $this->createForm(SortType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->get('sort')->getData();
+            $articles = $articleRepository->findByOrder($filter);
+        }else{
+            $articles = $articleRepository->findAll();
+        }
+
         return $this->render('admin/articles.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -72,6 +85,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $article->setUpdatedAt(new DateTimeImmutable('now'));
             $articleRepository->save($article, true);
 
             return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
@@ -115,11 +129,22 @@ class AdminController extends AbstractController
     }
 
     // Categories
-    #[Route('/category', name: 'app_admin_category', methods: ['GET'])]
-    public function categoryPage(CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
+    #[Route('/category', name: 'app_admin_category', methods: ['GET', 'POST'])]
+    public function categoryPage(Request $request, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
+        $form = $this->createForm(SortType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sort = $form->get('sort')->getData();
+            $categories = $categoryRepository->orderByCreatedAt($sort);
+        } else {
+            $categories = $categoryRepository->findAll();
+        }
+
         return $this->render('admin/category.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categories,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -131,6 +156,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $category->setCreatedAt(new DateTimeImmutable('now'));
             $categoryRepository->save($category, true);
 
             return $this->redirectToRoute('app_admin_category', [], Response::HTTP_SEE_OTHER);

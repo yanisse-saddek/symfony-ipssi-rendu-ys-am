@@ -39,6 +39,15 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function orderByCreatedAt(string $order = 'DESC'): array
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.createdAt', $order)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */
