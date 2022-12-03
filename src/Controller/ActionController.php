@@ -79,7 +79,18 @@ class ActionController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/product/{id}/{status}', name: 'app_product_status', methods: ['GET', 'POST'])]
+    public function status(Request $request, Product $product, ProductRepository $productRepository, $status): Response
+    {
+        if ($this->isCsrfTokenValid('status'.$product->getId(), $request->request->get('_token'))) {
+            $product->setPublished($status);
+            $productRepository->save($product, true);
+        }
 
+        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    
     #Change role to seller
     #[Route('/switch-seller', name: 'app_seller', methods: ['GET', 'POST'])]
     public function switchToSeller(Request $request, UserRepository $userRepository): Response

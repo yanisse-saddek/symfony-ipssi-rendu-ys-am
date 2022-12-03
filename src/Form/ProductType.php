@@ -14,16 +14,19 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('title', null, [
+                'label' => 'Titre',
                 'attr'=>[
                     'class'=>'form-control'
                 ]
             ])
             ->add('description', null, [
+                'label'=>'Description du produit',
                 'attr'=>[
                     'class'=>'form-control'
                 ]
             ])
             ->add('price', null, [
+                'label'=>'Prix',
                 'attr'=>[
                     'class'=>'form-control'
                 ]
@@ -31,21 +34,25 @@ class ProductType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => 'App\Entity\Category',
                 'choice_label' => 'name',
+                'label' => 'Categorie',
                 'attr'=>[
                     'class'=>'form-select'
                 ]
             ])
             ->add('image', null, [
+                'label'=>'Image',
                 'attr'=>[
                     'class'=>'form-control'
                 ]
             ])
             ->add('brand', null, [
+                'label'=>'Marque',
                 'attr'=>[
                     'class'=>'form-control'
                 ]
             ])
             ->add('quantity', null, [
+                'label'=>'Quantité',
                 'attr' => [
                     'min' => 1,
                     'max' => 999999,
