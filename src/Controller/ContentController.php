@@ -147,7 +147,6 @@ class ContentController extends AbstractController
     }
 
     #Articles
-
     #[Route('/article/{id}', name: 'app_article_show', methods: ['GET'])]
     public function showArticle(Article $article): Response
     {

@@ -120,11 +120,22 @@ class AdminController extends AbstractController
     }
 
     #Products
-    #[Route('/products', name: 'app_admin_product', methods: ['GET'])]
-    public function productPage(ProductRepository $productRepository): Response
+    #[Route('/products', name: 'app_admin_product', methods: ['GET', 'POST'])]
+    public function productPage(Request $request, ProductRepository $productRepository): Response
     {
+        $sortForm = $this->createForm(SortType::class);
+        $sortForm->handleRequest($request);
+        
+        if($sortForm->isSubmitted() && $sortForm->isValid()) {
+            $filter = $sortForm->get('sort')->getData();
+            $products = $productRepository->findByOrder($filter);
+        } else{
+            $products = $productRepository->findAll();
+        }
+
         return $this->render('admin/products.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $products,
+            'sortForm' => $sortForm->createView(),
         ]);
     }
 
