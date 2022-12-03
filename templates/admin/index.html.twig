@@ -3,10 +3,14 @@
 {% block title %}ADMIN{% endblock %}
 
 {% block body %}
+<div class="container">
     <h1>Panel admin</h1>
-
-    <p>Nombre d'article : {{articleCount}}</p>
-    <p>Nombre de produits : {{productCount}}</p>
-    <p>Nombre de catégorie : {{categoryCount}}</p>
-    <p>Nombre d'utilisateur : {{userCount}}</p>
+    
+    <div class="mt-5">
+        <p>Nombre d'articles : {{articleCount}}</p>
+        <p>Nombre de produits : {{productCount}}</p>
+        <p>Nombre de catégories : {{categoryCount}}</p>
+        <p>Nombre d'utilisateur : {{userCount}}</p>
+    </div> 
+</div>
 {% endblock %}
