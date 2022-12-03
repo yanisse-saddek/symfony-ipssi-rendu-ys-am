@@ -21,7 +21,7 @@ class ActionController extends AbstractController
     #[Route('/product/new', name: 'app_product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProductRepository $productRepository): Response
     {
-        if(!is_granted('ROLE_SELLER')) {
+        if(!$this->isGranted('ROLE_SELLER')) {
             return $this->redirectToRoute('app_home');
         }
         $product = new Product();

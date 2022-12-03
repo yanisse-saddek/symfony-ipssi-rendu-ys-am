@@ -6,9 +6,9 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href=" {{ path('app_product_index', {'order':'asc'}) }} ">Produits </a>
-      <a class="nav-item nav-link active" href=" {{ path('app_cart_index') }} ">Mon Panier </a>
       {% if app.user %}
 
+         <a class="nav-item nav-link active" href=" {{ path('app_cart_index') }} ">Mon Panier </a>
          <a class="nav-item nav-link text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
          <a class="nav-item nav-link" href="{{ path('app_profile', {'id':app.user.id}) }}">Profil</a>
          {% else %}

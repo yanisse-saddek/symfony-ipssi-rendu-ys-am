@@ -135,4 +135,15 @@ class ContentController extends AbstractController
             'data' => $data,
         ]);
     }
+
+    #Articles
+
+    #[Route('/article/{id}', name: 'app_article_show', methods: ['GET'])]
+    public function showArticle(Article $article): Response
+    {
+        return $this->render('content/article/show.html.twig', [
+            'article' => $article,
+        ]);
+    }
+
 }
