@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'app_admin_index', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, UserRepository $userRepository): Response
+    public function adminHomepage(ArticleRepository $articleRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, UserRepository $userRepository): Response
     {
         return $this->render('admin/index.html.twig', [
             'articleCount' => $articleRepository->count([]),
@@ -94,6 +94,16 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/article/{id}', name: 'app_article_delete', methods: ['POST'])]
+    public function deleteArticle(Request $request, Article $article, ArticleRepository $articleRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $articleRepository->remove($article, true);
+        }
+
+        return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
+    }
+
     #Products
     #[Route('/products', name: 'app_admin_product', methods: ['GET'])]
     public function productPage(ProductRepository $productRepository): Response
@@ -113,7 +123,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/category/new', name: 'app_admin_category_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CategoryRepository $categoryRepository): Response
+    public function createCategory(Request $request, CategoryRepository $categoryRepository): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -131,7 +141,7 @@ class AdminController extends AbstractController
         ]);
     }
     #[Route('/category/{id}/edit', name: 'app_admin_category_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    public function editCategory(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -149,7 +159,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/category/{id}', name: 'app_admin_category_delete', methods: ['POST'])]
-    public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    public function deleteCategory(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
