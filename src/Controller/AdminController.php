@@ -64,6 +64,36 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/article/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
+    public function editArticle(Request $request, Article $article, ArticleRepository $articleRepository): Response
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $articleRepository->save($article, true);
+
+            return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/article/edit.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/article/{id}/{status}', name: 'app_article_status', methods: ['POST'])]
+    public function changeArticleStatus(Request $request, Article $article, ArticleRepository $articleRepository, $status): Response
+    {
+        if ($this->isCsrfTokenValid('status'.$article->getId(), $request->request->get('_token'))) {
+            $article->setPublished($status);
+            $articleRepository->save($article, true);
+        }
+
+
+        return $this->redirectToRoute('app_admin_article', [], Response::HTTP_SEE_OTHER);
+    }
+
     #Products
     #[Route('/products', name: 'app_admin_product', methods: ['GET'])]
     public function productPage(ProductRepository $productRepository): Response

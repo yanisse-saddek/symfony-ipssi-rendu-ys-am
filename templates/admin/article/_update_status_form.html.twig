@@ -1,0 +1,8 @@
+<form method="post" action="{{ path('app_article_status', {'id': article.id, 'status': article.published ? '0' : '1' }) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('status' ~ article.id) }}">
+    {% if article.published %}
+        <button class="btn btn-warning">Enregistrer en brouillon</button>
+        {% else %}
+        <button class="btn btn-success">Mettre l'article en ligne</button>
+    {% endif %}    
+</form>

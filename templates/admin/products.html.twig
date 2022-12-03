@@ -1,34 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des produits{% endblock %}
+{% block title %}Produits{% endblock %}
 
 {% block body %}
-    <h1>Liste des prduits</h1>
+<div class="container">
+    <h1>Liste des produits</h1>
 
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
-                <th>Name</th>
-                {# <th>Vendeur</th> #}
-                <th>actions</th>
+                <th>Vendeur</th>
+                <th>Titre</th>
+                <th>Quantité</th>
+                <th>Créer le</th>
+                <th>Mis à jour le</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for product in products %}
             <tr>
-                {# <td>{{ product.id }}</td> #}
+                <td>{{ product.seller.firstname }} {{ product.seller.name }}</td>
                 <td>{{ product.title }}</td>
-                {# <td>{{ product. }}</td> #}
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.published ? 
+                        '<span class="badge bg-success rounded-pill-pill">Publié</span>' : 
+                        '<span class="badge bg-warning rounded-pill-pill">Brouillon</span>' }}</td>
                 <td>
-                    <a>Supprimer</a>
-                    {# <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a> #}
+                    <a href="{{ path('app_article_show', {'id': product.id}) }}">Voir</a>
+                    <a href="{{ path('app_article_edit', {'id': product.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="6">Aucun produit n'a encore été publié</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

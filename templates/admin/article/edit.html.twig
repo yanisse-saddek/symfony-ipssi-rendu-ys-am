@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition d'article{% endblock %}
+
+{% block body %}
+<div class="container">
+    <a class="btn btn-primary" href="{{ path('app_admin_article') }}">Retour à la liste des articles</a>
+    <h1>Editer un article</h1>
+
+    {{ include('admin/article/_form.html.twig', {'button_label': "Mettre à jour l'article"}) }}
+
+    <div class="d-flex mt-5">
+        {{ include('admin/article/_delete_form.html.twig') }}
+        {{ include('admin/article/_update_status_form.html.twig', {'status': article.published}) }}
+
+    </div>
+</div>
+{% endblock %}
