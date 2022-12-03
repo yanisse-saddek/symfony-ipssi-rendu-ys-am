@@ -19,7 +19,7 @@ class ActionController extends AbstractController
 {   
     #Products
     #[Route('/product/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductRepository $productRepository): Response
+    public function createProduct(Request $request, ProductRepository $productRepository): Response
     {
         if(!$this->isGranted('ROLE_SELLER')) {
             return $this->redirectToRoute('app_home');
@@ -45,7 +45,7 @@ class ActionController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'app_product_delete', methods: ['GET', 'POST'])]
-    public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function deleteProduct(Request $request, Product $product, ProductRepository $productRepository): Response
     {
         if($product->getSeller() !== $this->getUser()){
             return $this->redirectToRoute('app_home');
@@ -60,7 +60,7 @@ class ActionController extends AbstractController
         ], Response::HTTP_SEE_OTHER);
     }
     #[Route('/product/edit/{id}', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function editProduct(Request $request, Product $product, ProductRepository $productRepository): Response
     {
         if($product->getSeller() !== $this->getUser()){
             return $this->redirectToRoute('app_home');
@@ -80,7 +80,7 @@ class ActionController extends AbstractController
         ]);
     }
     #[Route('/product/{id}/{status}', name: 'app_product_status', methods: ['GET', 'POST'])]
-    public function status(Request $request, Product $product, ProductRepository $productRepository, $status): Response
+    public function getProductStatus(Request $request, Product $product, ProductRepository $productRepository, $status): Response
     {
         if ($this->isCsrfTokenValid('status'.$product->getId(), $request->request->get('_token'))) {
             $product->setPublished($status);
