@@ -18,6 +18,12 @@ class SortType extends AbstractType
             'choices' => [
                 'Plus récents' => 'desc',
                 'Plus anciens' => 'asc',
+                'ordre alphabétique'=>'title-asc',
+                'ordre alphabétique inverse'=>'title-desc',
+                'prix le plus bas au plus haut'=>'price-asc',
+                'prix le plus haut au plus bas'=>'price-desc',
+                'marque'=>'brand',
+                'categorie'=>'category',
             ],
         ])
     ;    }
