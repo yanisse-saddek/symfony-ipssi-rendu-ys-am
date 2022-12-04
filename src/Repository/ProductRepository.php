@@ -49,8 +49,18 @@ class ProductRepository extends ServiceEntityRepository
             $qb->orderBy('p.createdAt', 'DESC');
         } elseif($filter == 'title-asc') {
             $qb->orderBy('p.title', 'ASC');
-        }else{
+        } elseif($filter == 'title-desc'){
             $qb->orderBy('p.title', 'DESC');
+        } elseif($filter == 'price-asc'){
+            $qb->orderBy('p.price', 'ASC');
+        } elseif($filter == 'price-desc'){
+            $qb->orderBy('p.price', 'DESC');
+        } elseif($filter == 'brand'){
+            $qb->orderBy('p.brand', 'ASC');
+        } elseif($filter == 'category'){
+            $qb->orderBy('p.category', 'ASC');
+        } elseif($filter == 'category'){
+            $qb->orderBy('p.price', 'DESC');
         }
 
         $qb->where('p.quantity > 0');
@@ -58,20 +68,7 @@ class ProductRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    public function findByTitle($filter)
-    {
-        $qb = $this->createQueryBuilder('p');
-
-        if($filter == 'title') {
-            $qb->orderBy('p.Title', 'TITLE');
-        } 
-
-        $qb->where('p.quantity > 0');
-        $qb->where('p.published = 1');
-
-        return $qb->getQuery()->getResult();
-    }
-
+ 
     public function getProductByUser($user)
     {
         $qb = $this->createQueryBuilder('p');
