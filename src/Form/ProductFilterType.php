@@ -20,7 +20,11 @@ class ProductFilterType extends AbstractType
                     'Plus récents'=>'asc',
                     'Plus anciens'=>'desc',
                     'ordre alphabétique'=>'title-asc',
-                    'ordre alphabétique inverse'=>'title-desc'
+                    'ordre alphabétique inverse'=>'title-desc',
+                    'prix le plus bas au plus haut'=>'price-asc',
+                    'prix le plus haut au plus bas'=>'price-desc',
+                    'marque'=>'brand',
+                    'categorie'=>'category',
                     // 'ordre alphabétique'=>'title'
                 ],
             ] )
