@@ -19,6 +19,9 @@ class ProductFilterType extends AbstractType
                 'choices'=>[
                     'Plus récents'=>'asc',
                     'Plus anciens'=>'desc',
+                    'ordre alphabétique'=>'title-asc',
+                    'ordre alphabétique inverse'=>'title-desc'
+                    // 'ordre alphabétique'=>'title'
                 ],
             ] )
         ;

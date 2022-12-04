@@ -45,9 +45,26 @@ class ProductRepository extends ServiceEntityRepository
 
         if($filter == 'asc') {
             $qb->orderBy('p.createdAt', 'ASC');
-        } else {
+        } elseif($filter == 'desc') {
             $qb->orderBy('p.createdAt', 'DESC');
+        } elseif($filter == 'title-asc') {
+            $qb->orderBy('p.title', 'ASC');
+        }else{
+            $qb->orderBy('p.title', 'DESC');
         }
+
+        $qb->where('p.quantity > 0');
+        $qb->where('p.published = 1');
+
+        return $qb->getQuery()->getResult();
+    }
+    public function findByTitle($filter)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if($filter == 'title') {
+            $qb->orderBy('p.Title', 'TITLE');
+        } 
 
         $qb->where('p.quantity > 0');
         $qb->where('p.published = 1');
